@@ -1,14 +1,13 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
+from datetime import datetime, timedelta
 from sql import Cast
 from sql.operators import Concat
 
 from trytond import backend
 from trytond.model import ModelView, fields
 from trytond.pool import PoolMeta
-from trytond.pyson import Eval, Bool
+from trytond.pyson import Eval
 from trytond.transaction import Transaction
 
 __all__ = ['Line']
@@ -74,33 +73,27 @@ class Line:
             table.drop_column(end_column_bak, exception=True)
 
     @staticmethod
-    def default_hours():
-        return 0.0
+    def default_start():
+        return datetime.now()
 
-    @fields.depends('start', 'hours')
-    def on_change_hours(self):
-        if self.start and self.hours is not None:
-            return {
-                'end': self.start + relativedelta(seconds=round(self.hours
-                        * 3600))
-                }
-        return {}
+    @staticmethod
+    def default_duration():
+        return timedelta(seconds=1)
+
+    @fields.depends('start', 'duration')
+    def on_change_duration(self):
+        if self.start and self.duration is not None:
+            self.end = self.start + self.duration
 
     @fields.depends('start', 'end')
     def on_change_start(self):
         if self.start and self.end:
-            return {
-                'hours': self._calc_hours(self.end, self.start),
-                }
-        return {}
+            self.duration = self._calc_duration(self.end, self.start)
 
     @fields.depends('start', 'end')
     def on_change_end(self):
         if self.start and self.end:
-            return {
-                'hours': self._calc_hours(self.end, self.start),
-                }
-        return {}
+            self.duration = self._calc_duration(self.end, self.start)
 
     @classmethod
     @ModelView.button
@@ -110,13 +103,13 @@ class Line:
 
     def stop(self):
         self.end = datetime.now()
-        self.hours = self._calc_hours(self.end)
+        self.duration = self._calc_duration(self.end)
         self.save()
 
-    def _calc_hours(self, end, start=None):
+    def _calc_duration(self, end, start=None):
         if not start:
             start = self.start
-        return round((end - start).total_seconds() / 3600.0, 2)
+        return end - start
 
     @classmethod
     def copy(cls, lines, default=None):
@@ -125,5 +118,5 @@ class Line:
         default = default.copy()
         default['start'] = cls.default_start()
         default['end'] = None
-        default['hours'] = cls.default_hours()
+        default['duration'] = cls.default_duration()
         return super(Line, cls).copy(lines, default=default)

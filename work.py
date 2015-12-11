@@ -1,7 +1,5 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
-import datetime
-
 from trytond.model import ModelView, fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
@@ -61,6 +59,11 @@ class StartWork(Wizard):
     def default_choose_action(self, fields):
         User = Pool().get('res.user')
         user = User(Transaction().user)
+        if not user.employee:
+            return {
+                'opened_lines': [],
+                'opened_tasks': [],
+                }
         return {
             'opened_lines': [x.id
                 for x in user.employee.opened_timesheet_lines],
@@ -70,7 +73,7 @@ class StartWork(Wizard):
     def transition_start(self):
         User = Pool().get('res.user')
         user = User(Transaction().user)
-        if not user.employee.opened_timesheet_lines:
+        if user.employee and not user.employee.opened_timesheet_lines:
             return self._start_current_work()
         return 'choose_action'
 
@@ -121,13 +124,15 @@ class Work:
 
     def get_working_employees(self, name=None):
         Line = Pool().get('timesheet.line')
+        if not self.work:
+            return []
         lines = Line.search([
                 ('start', '!=', None),
                 ('work', '=', self.work.id),
                 ('end', '=', None)])
         if not lines:
             return []
-        return list(set([x.employee.id for x in lines]))
+        return list(set([x.employee.id for x in lines if x.employee]))
 
     @classmethod
     @ModelView.button_action('timetracker.act_start_work')
@@ -140,8 +145,8 @@ class Work:
         user = User(Transaction().user)
         line = Line()
         line.work = self.work.id
-        line.start = datetime.datetime.now()
-        line.hours = 0
+        line.start = Line.default_start()
+        line.duration = Line.default_duration()
         line.employee = user.employee.id
         line.save()
 
@@ -177,3 +182,9 @@ class Work:
                 ])
         for line in lines:
             line.stop()
+
+    @classmethod
+    def view_attributes(cls):
+        return [('/form//group[@id="timetracker_buttons"]', 'states', {
+                    'invisible': Eval('type') == 'project',
+                    })]

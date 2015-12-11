@@ -2,9 +2,11 @@
 <!-- This file is part of Timetracker. The COPYRIGHT file at the top level of
 this repository contains the full copyright notices and license terms. -->
 <data>
-  <xpath expr="/tree/field[@name='hours']" position="before">
-    <field name="start"/>
-    <field name="end"/>
+  <xpath expr="/tree/field[@name='duration']" position="before">
+    <field name="start" widget="date"/>
+    <field name="start" widget="time" string="Start Time"/>
+    <field name="end" widget="date"/>
+    <field name="end" widget="time" string="End Time"/>
     <button name="finish" string="Finish"/>
   </xpath>
 </data>
