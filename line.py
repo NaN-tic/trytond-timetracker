@@ -78,7 +78,7 @@ class Line:
 
     @staticmethod
     def default_duration():
-        return timedelta(seconds=1)
+        return timedelta(seconds=0)
 
     @fields.depends('start', 'duration')
     def on_change_duration(self):
