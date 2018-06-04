@@ -93,8 +93,6 @@ class StartWork(Wizard):
         task.start_work()
         return 'end'
 
-invisible = ~Bool(Eval('timesheet_available', False))
-
 
 class Work:
     __metaclass__ = PoolMeta
@@ -109,17 +107,14 @@ class Work:
         super(Work, cls).__setup__()
         cls._buttons.update({
                 'start_work_wizard': {
-                    'invisible': invisible,
                     'readonly': Eval('working_employees',
                         []).contains(Eval('context', {}).get('employee', 0)),
                     },
                 'stop_work': {
-                    'invisible': invisible,
                     'readonly': ~Eval('working_employees',
                         []).contains(Eval('context', {}).get('employee', 0)),
                     },
                 'cancel_work': {
-                    'invisible': invisible,
                     'readonly': ~Eval('working_employees',
                         []).contains(Eval('context', {}).get('employee', 0)),
                     },
