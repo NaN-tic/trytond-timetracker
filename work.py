@@ -184,9 +184,3 @@ class Work:
                 ])
         for line in lines:
             line.stop()
-
-    @classmethod
-    def view_attributes(cls):
-        return [('/form//group[@id="timetracker_buttons"]', 'states', {
-                    'invisible': invisible,
-                    })]
