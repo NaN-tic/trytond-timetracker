@@ -17,7 +17,8 @@ class Employee(metaclass=PoolMeta):
         Task = Pool().get('project.work')
         lines = self.opened_timesheet_lines
         return Task.search([
-                ('id', 'in', [x.work.id for x in lines]),
+                ('id', 'in', [x.work.origin.id for x in lines
+                        if isinstance(x.work.origin, Task)]),
                 ])
 
     @property
