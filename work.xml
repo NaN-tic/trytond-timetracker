@@ -18,6 +18,7 @@
 
         <record model="ir.model.button" id="start_work_button">
             <field name="name">start_work_wizard</field>
+            <field name="string">Start</field>
             <field name="model" search="[('model', '=', 'project.work')]"/>
         </record>
         <record model="ir.model.button-res.group" id="start_work_button_group_project">
@@ -27,6 +28,7 @@
 
         <record model="ir.model.button" id="stop_work_button">
             <field name="name">stop_work</field>
+            <field name="string">Stop</field>
             <field name="model" search="[('model', '=', 'project.work')]"/>
         </record>
         <record model="ir.model.button-res.group" id="stop_work_button_group_project">
@@ -36,6 +38,7 @@
 
         <record model="ir.model.button" id="cancel_work_button">
             <field name="name">cancel_work</field>
+            <field name="name">Cancel</field>
             <field name="model" search="[('model', '=', 'project.work')]"/>
         </record>
         <record model="ir.model.button-res.group" id="cancel_work_button_group_project">

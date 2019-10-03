@@ -7,6 +7,6 @@ this repository contains the full copyright notices and license terms. -->
     <field name="start" widget="time" string="Start Time"/>
     <field name="end" widget="date"/>
     <field name="end" widget="time" string="End Time"/>
-    <button name="finish" string="Finish"/>
+    <button name="finish"/>
   </xpath>
 </data>

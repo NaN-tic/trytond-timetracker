@@ -8,7 +8,7 @@
             <field name="start"/>
             <label name="end"/>
             <field name="end"/>
-            <button name="finish" string="Finish"/>
+            <button name="finish"/>
         </group>
     </xpath>
 </data>
