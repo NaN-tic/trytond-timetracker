@@ -38,7 +38,7 @@
 
         <record model="ir.model.button" id="cancel_work_button">
             <field name="name">cancel_work</field>
-            <field name="name">Cancel</field>
+            <field name="string">Cancel</field>
             <field name="model" search="[('model', '=', 'project.work')]"/>
         </record>
         <record model="ir.model.button-res.group" id="cancel_work_button_group_project">
