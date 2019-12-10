@@ -29,12 +29,11 @@ class Line(metaclass=PoolMeta):
 
     @classmethod
     def __register__(cls, module_name):
-        TableHandler = backend.get('TableHandler')
         cursor = Transaction().connection.cursor()
         sql_table = cls.__table__()
 
         # Migration from 3.0: change start/end field type
-        table = TableHandler(cls, module_name)
+        table = backend.TableHandler(cls, module_name)
         migrate_start_end = False
         if (table.column_exist('start') and
                 table._columns['start']['typname'] == 'time'):
@@ -57,7 +56,7 @@ class Line(metaclass=PoolMeta):
         super(Line, cls).__register__(module_name)
 
         if migrate_start_end:
-            table = TableHandler(cls, module_name)
+            table = backend.TableHandler(cls, module_name)
             date_start_bak = Concat(Concat(sql_table.date, ' '),
                 getattr(sql_table, start_column_bak))
             date_end_bak = Concat(Concat(sql_table.date, ' '),
