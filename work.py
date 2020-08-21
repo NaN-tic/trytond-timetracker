@@ -2,11 +2,9 @@
 # copyright notices and license terms.
 from trytond.model import ModelView, fields
 from trytond.pool import Pool, PoolMeta
-from trytond.pyson import Eval, Bool
+from trytond.pyson import Eval
 from trytond.transaction import Transaction
 from trytond.wizard import Wizard, StateTransition, StateView, Button
-
-__all__ = ['Work', 'Employee', 'StartWorkChooseAction', 'StartWork']
 
 
 class Employee(metaclass=PoolMeta):

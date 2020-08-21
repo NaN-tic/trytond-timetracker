@@ -1,18 +1,17 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
 from trytond.pool import Pool
-from .work import *
-from .line import *
+from . import work
+from . import line
 
 
 def register():
     Pool.register(
-        Work,
-        Line,
-        Employee,
-        StartWorkChooseAction,
+        work.Work,
+        line.Line,
+        work.Employee,
+        work.StartWorkChooseAction,
         module='timetracker', type_='model')
     Pool.register(
-        StartWork,
+        work.StartWork,
         module='timetracker', type_='wizard')
-

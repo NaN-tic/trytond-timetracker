@@ -10,8 +10,6 @@ from trytond.pool import PoolMeta
 from trytond.pyson import Eval
 from trytond.transaction import Transaction
 
-__all__ = ['Line']
-
 
 class Line(metaclass=PoolMeta):
     __name__ = 'timesheet.line'
