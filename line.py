@@ -1,6 +1,6 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from sql import Cast
 from sql.operators import Concat
 
@@ -108,6 +108,8 @@ class Line(metaclass=PoolMeta):
     def _calc_duration(self, end, start=None):
         if not start:
             start = self.start
+        if isinstance(end, date):
+            end = datetime.combine(end, datetime.min.time())
         return end - start
 
     @classmethod
