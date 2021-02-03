@@ -2,9 +2,8 @@
 <!-- This file is part of Timetracker. The COPYRIGHT file at the top level of
 this repository contains the full copyright notices and license terms. -->
 <data>
-    <xpath expr="/form/field[@name='company']" position="after">
-        <group col="3" colspan="2" id="timetracker_buttons"
-            string="Tracker">
+    <xpath expr="/form/field[@name='party_address']" position="after">
+        <group col="3" colspan="2" id="timetracker_buttons" string="Tracker">
             <button name="start_work_wizard"/>
             <button name="stop_work"/>
             <button name="cancel_work"/>
@@ -14,6 +13,7 @@ this repository contains the full copyright notices and license terms. -->
     <xpath expr="/form/notebook" position="inside">
         <page name="working_employees">
             <field name="working_employees" colspan="4"/>
+            <field name="has_employee" invisible="1"/>
         </page>
     </xpath>
 </data>
