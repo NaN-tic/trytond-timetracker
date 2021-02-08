@@ -108,19 +108,30 @@ class Work(metaclass=PoolMeta):
                 'start_work_wizard': {
                     'readonly': Eval('working_employees',
                         []).contains(Eval('context', {}).get('employee', 0)),
-                    'invisible': ~Eval('has_employee'),
+                    'invisible': (
+                        ~Eval('has_employee') | ~Eval('timesheet_available')),
                     },
                 'stop_work': {
                     'readonly': ~Eval('working_employees',
                         []).contains(Eval('context', {}).get('employee', 0)),
-                    'invisible': ~Eval('has_employee'),
+                    'invisible': (
+                        ~Eval('has_employee') | ~Eval('timesheet_available')),
                     },
                 'cancel_work': {
                     'readonly': ~Eval('working_employees',
                         []).contains(Eval('context', {}).get('employee', 0)),
-                    'invisible': ~Eval('has_employee'),
+                    'invisible': (
+                        ~Eval('has_employee') | ~Eval('timesheet_available')),
                     },
                 })
+
+    @classmethod
+    def view_attributes(cls):
+        return super(Work, cls).view_attributes() + [
+            ('//group[@id="timetracker_buttons"]', 'states', {
+                    'invisible': (
+                        ~Eval('has_employee') | ~Eval('timesheet_available')),
+                    })]
 
     def get_working_employees(self, name=None):
         Line = Pool().get('timesheet.line')
