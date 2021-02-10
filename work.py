@@ -98,6 +98,8 @@ class Work(metaclass=PoolMeta):
     working_employees = fields.Function(fields.Many2Many('company.employee',
             None, None, 'Emloyee Working',
             help='Employees working on this work'), 'get_working_employees')
+    has_employee = fields.Function(fields.Boolean('Has Employee'),
+            'get_has_employee')
 
     @classmethod
     def __setup__(cls):
@@ -106,28 +108,52 @@ class Work(metaclass=PoolMeta):
                 'start_work_wizard': {
                     'readonly': Eval('working_employees',
                         []).contains(Eval('context', {}).get('employee', 0)),
+                    'invisible': (
+                        ~Eval('has_employee') | ~Eval('timesheet_available')),
                     },
                 'stop_work': {
                     'readonly': ~Eval('working_employees',
                         []).contains(Eval('context', {}).get('employee', 0)),
+                    'invisible': (
+                        ~Eval('has_employee') | ~Eval('timesheet_available')),
                     },
                 'cancel_work': {
                     'readonly': ~Eval('working_employees',
                         []).contains(Eval('context', {}).get('employee', 0)),
+                    'invisible': (
+                        ~Eval('has_employee') | ~Eval('timesheet_available')),
                     },
                 })
 
+    @classmethod
+    def view_attributes(cls):
+        return super(Work, cls).view_attributes() + [
+            ('//group[@id="timetracker_buttons"]', 'states', {
+                    'invisible': (
+                        ~Eval('has_employee') | ~Eval('timesheet_available')),
+                    })]
+
     def get_working_employees(self, name=None):
         Line = Pool().get('timesheet.line')
+
         if not self.timesheet_available:
-            return []
+            return
+
         lines = Line.search([
                 ('start', '!=', None),
                 ('work', 'in', [t.id for t in self.timesheet_works]),
                 ('end', '=', None)])
-        if not lines:
-            return []
-        return list(set([x.employee.id for x in lines if x.employee]))
+        if lines:
+            return list(set([x.employee.id for x in lines if x.employee]))
+
+    @classmethod
+    def get_has_employee(cls, works, name):
+        User = Pool().get('res.user')
+
+        user = User(Transaction().user)
+        has_employee = True if user.employee else False
+        res = dict((w.id, has_employee) for w in works)
+        return res
 
     @classmethod
     @ModelView.button_action('timetracker.act_start_work')
@@ -137,9 +163,14 @@ class Work(metaclass=PoolMeta):
     def start_work(self):
         if not self.timesheet_available:
             return
-        Line = Pool().get('timesheet.line')
-        User = Pool().get('res.user')
+        pool = Pool()
+        Line = pool.get('timesheet.line')
+        User = pool.get('res.user')
+
         user = User(Transaction().user)
+        if not user.employee:
+            return
+
         line = Line()
         line.work, = self.timesheet_works
         line.start = Line.default_start()
@@ -150,10 +181,14 @@ class Work(metaclass=PoolMeta):
     @classmethod
     @ModelView.button
     def cancel_work(cls, tasks):
-        Line = Pool().get('timesheet.line')
-        Line = Pool().get('timesheet.line')
-        User = Pool().get('res.user')
+        pool = Pool()
+        Line = pool.get('timesheet.line')
+        Line = pool.get('timesheet.line')
+        User = pool.get('res.user')
+
         user = User(Transaction().user)
+        if not user.employee:
+            return
 
         tworks = [t.id for x in tasks for t in x.timesheet_works]
         lines = Line.search([
@@ -163,14 +198,17 @@ class Work(metaclass=PoolMeta):
                 ('end', '=', None),
                 ])
         Line.delete(lines)
-        return
 
     @classmethod
     @ModelView.button
     def stop_work(cls, tasks):
-        Line = Pool().get('timesheet.line')
-        User = Pool().get('res.user')
+        pool = Pool()
+        Line = pool.get('timesheet.line')
+        User = pool.get('res.user')
+
         user = User(Transaction().user)
+        if not user.employee:
+            return
 
         tworks = [t.id for x in tasks for t in x.timesheet_works]
         lines = Line.search([
