@@ -69,14 +69,6 @@ class Line(metaclass=PoolMeta):
             table.drop_column(start_column_bak, exception=True)
             table.drop_column(end_column_bak, exception=True)
 
-    @staticmethod
-    def default_start():
-        return datetime.now()
-
-    @staticmethod
-    def default_duration():
-        return timedelta(seconds=0)
-
     @fields.depends('start', 'duration')
     def on_change_duration(self):
         if self.start and self.duration is not None:
