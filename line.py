@@ -1,6 +1,6 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from sql import Cast
 from sql.operators import Concat
 

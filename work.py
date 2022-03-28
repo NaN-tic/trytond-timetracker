@@ -1,5 +1,6 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
+from datetime import datetime, timedelta
 from trytond.model import ModelView, fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
@@ -173,8 +174,8 @@ class Work(metaclass=PoolMeta):
 
         line = Line()
         line.work, = self.timesheet_works
-        line.start = Line.default_start()
-        line.duration = Line.default_duration()
+        line.start = datetime.now()
+        line.duration = timedelta(seconds=0)
         line.employee = user.employee.id
         line.save()
 
