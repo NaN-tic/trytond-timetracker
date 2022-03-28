@@ -73,12 +73,12 @@ class Line(metaclass=PoolMeta):
         if self.start and self.duration is not None:
             self.end = self.start + self.duration
 
-    @fields.depends('start', 'end')
+    @fields.depends('start', 'end', methods=['_calc_duration'])
     def on_change_start(self):
         if self.start and self.end:
             self.duration = self._calc_duration(self.end, self.start)
 
-    @fields.depends('start', 'end')
+    @fields.depends('start', 'end', methods=['_calc_duration'])
     def on_change_end(self):
         if self.start and self.end:
             self.duration = self._calc_duration(self.end, self.start)
@@ -94,6 +94,7 @@ class Line(metaclass=PoolMeta):
         self.duration = self._calc_duration(self.end)
         self.save()
 
+    @fields.depends('start')
     def _calc_duration(self, end, start=None):
         if not start:
             start = self.start
