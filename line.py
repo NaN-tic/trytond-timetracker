@@ -69,6 +69,19 @@ class Line(metaclass=PoolMeta):
             table.drop_column(start_column_bak, exception=True)
             table.drop_column(end_column_bak, exception=True)
 
+    @classmethod
+    def create(cls, vlist):
+        vlist = [v.copy() for v in vlist]
+        for values in vlist:
+            if type(values['start']) == date:
+                values['start'] = datetime.combine(
+                    values['start'], datetime.min.time())
+            if type(values['end']) == date:
+                values['end'] = datetime.combine(
+                    values['end'], datetime.min.time())
+        lines = super().create(vlist)
+        return lines
+
     @fields.depends('start', 'duration')
     def on_change_duration(self):
         if self.start and self.duration is not None:
@@ -99,16 +112,9 @@ class Line(metaclass=PoolMeta):
     def _calc_duration(self, end, start=None):
         if not start:
             start = self.start
+        if type(start) == date:
+            start = datetime.combine(start, datetime.min.time())
         if type(end) == date:
             end = datetime.combine(end, datetime.min.time())
         return end - start
 
-    @classmethod
-    def copy(cls, lines, default=None):
-        if default is None:
-            default = {}
-        default = default.copy()
-        default['start'] = cls.default_start()
-        default['end'] = None
-        default['duration'] = cls.default_duration()
-        return super(Line, cls).copy(lines, default=default)
