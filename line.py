@@ -73,10 +73,12 @@ class Line(metaclass=PoolMeta):
     def create(cls, vlist):
         vlist = [v.copy() for v in vlist]
         for values in vlist:
-            if type(values['start']) == date:
+            # TODO: This is required as long as sao does not properly pass
+            # datetime fields as datetime in all cases.
+            if 'start' in values and type(values['start']) == date:
                 values['start'] = datetime.combine(
                     values['start'], datetime.min.time())
-            if type(values['end']) == date:
+            if 'end' in values and type(values['end']) == date:
                 values['end'] = datetime.combine(
                     values['end'], datetime.min.time())
         lines = super().create(vlist)
