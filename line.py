@@ -1,6 +1,6 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from sql import Cast
 from sql.operators import Concat
 
@@ -82,6 +82,10 @@ class Line(metaclass=PoolMeta):
                     values['end'], datetime.min.time())
         lines = super().create(vlist)
         return lines
+
+    @staticmethod
+    def default_duration():
+        return timedelta(seconds=0)
 
     @fields.depends('start', 'duration')
     def on_change_duration(self):
