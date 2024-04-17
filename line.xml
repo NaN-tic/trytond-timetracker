@@ -18,7 +18,7 @@
         <record model="ir.model.button" id="finish_timetracker_button">
             <field name="name">finish</field>
             <field name="string">Finish</field>
-            <field name="model" search="[('model', '=', 'timesheet.line')]"/>
+            <field name="model">timesheet.line</field>
         </record>
 
     </data>
