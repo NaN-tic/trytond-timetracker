@@ -1,6 +1,21 @@
 #
+# SPDX-FileCopyrightText: 2026 juanjo <juanjo.garcia@nan-tic.com>
 msgid ""
-msgstr "Content-Type: text/plain; charset=utf-8\n"
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Last-Translator: juanjo <juanjo.garcia@nan-tic.com>\n"
+"PO-Revision-Date: 2026-03-11 09:54+0000\n"
+"Project-Id-Version: \n"
+"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"Language: ca_ES\n"
+"Content-Transfer-Encoding: 8bit\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 25.04.0\n"
+
+msgctxt "field:project.work,has_employee:"
+msgid "Has Employee"
+msgstr "Té un empleat"
 
 msgctxt "field:project.work,working_employees:"
 msgid "Emloyee Working"
@@ -13,10 +28,6 @@ msgstr "Finalitzat"
 msgctxt "field:timesheet.line,start:"
 msgid "Start"
 msgstr "Inici"
-
-msgctxt "field:timesheet.line.start_work.choose_action,id:"
-msgid "ID"
-msgstr "Identificador"
 
 msgctxt "field:timesheet.line.start_work.choose_action,opened_lines:"
 msgid "Opened Lines"
@@ -34,6 +45,22 @@ msgctxt "model:ir.action,name:act_start_work"
 msgid "Start Work"
 msgstr "Iniciar treball"
 
+msgctxt "model:ir.model.button,string:cancel_work_button"
+msgid "Cancel"
+msgstr "Cancel·la"
+
+msgctxt "model:ir.model.button,string:finish_timetracker_button"
+msgid "Finish"
+msgstr "Finalitzar"
+
+msgctxt "model:ir.model.button,string:start_work_button"
+msgid "Start"
+msgstr "Finalitza"
+
+msgctxt "model:ir.model.button,string:stop_work_button"
+msgid "Stop"
+msgstr "Atura"
+
 msgctxt "model:res.group,name:group_timetracker"
 msgid "Timetracker"
 msgstr "Seguiment"
@@ -41,18 +68,6 @@ msgstr "Seguiment"
 msgctxt "model:timesheet.line.start_work.choose_action,name:"
 msgid "Start Work - Choose Action"
 msgstr "Iniciar treball - Escull acció"
-
-msgctxt "view:project.work:"
-msgid "Cancel"
-msgstr "Cancel·la"
-
-msgctxt "view:project.work:"
-msgid "Start"
-msgstr "Inicia"
-
-msgctxt "view:project.work:"
-msgid "Stop"
-msgstr "Atura"
 
 msgctxt "view:project.work:"
 msgid "Tracker"
@@ -65,10 +80,6 @@ msgstr "Inicia treball"
 msgctxt "view:timesheet.line:"
 msgid "End Time"
 msgstr "Temps finalització"
-
-msgctxt "view:timesheet.line:"
-msgid "Finish"
-msgstr "Finalitza"
 
 msgctxt "view:timesheet.line:"
 msgid "Start Time"
