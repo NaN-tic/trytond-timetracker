@@ -55,7 +55,7 @@ msgstr "Finalitzar"
 
 msgctxt "model:ir.model.button,string:start_work_button"
 msgid "Start"
-msgstr "Finalitza"
+msgstr "Inici"
 
 msgctxt "model:ir.model.button,string:stop_work_button"
 msgid "Stop"
