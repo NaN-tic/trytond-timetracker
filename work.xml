@@ -6,10 +6,6 @@
         <record model="res.group" id="group_timetracker">
             <field name="name">Timetracker</field>
         </record>
-        <record model="res.user-res.group" id="user_admin_group_timetracker">
-            <field name="user" ref="res.user_admin"/>
-            <field name="group" ref="group_timetracker"/>
-        </record>
         <record model="ir.ui.view" id="work_view_form">
             <field name="model">project.work</field>
             <field name="inherit" ref="project.work_view_form"/>
