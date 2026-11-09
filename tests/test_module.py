@@ -9,6 +9,7 @@ from trytond.tests.test_tryton import ModuleTestCase
 class TimetrackerTestCase(CompanyTestMixin, ModuleTestCase):
     'Test Timetracker module'
     module = 'timetracker'
+    extras = ['project']
 
 
 del ModuleTestCase
