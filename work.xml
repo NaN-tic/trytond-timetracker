@@ -6,6 +6,8 @@
         <record model="res.group" id="group_timetracker">
             <field name="name">Timetracker</field>
         </record>
+    </data>
+    <data depends="project">
         <record model="ir.ui.view" id="work_view_form">
             <field name="model">project.work</field>
             <field name="inherit" ref="project.work_view_form"/>

@@ -7,11 +7,13 @@ from . import line
 
 def register():
     Pool.register(
-        work.Work,
         line.Line,
-        work.Employee,
-        work.StartWorkChooseAction,
         module='timetracker', type_='model')
     Pool.register(
+        work.Work,
+        work.Employee,
+        work.StartWorkChooseAction,
+        module='timetracker', type_='model', depends=['project'])
+    Pool.register(
         work.StartWork,
-        module='timetracker', type_='wizard')
+        module='timetracker', type_='wizard', depends=['project'])
